@@ -4,8 +4,10 @@ import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { userLogin } from '../interfaces/userLogin';
-import { userInfo } from '../interfaces/userInfo';
+import { userLoginInterface } from '../interfaces/loginInterfaces/userLogin.interface';
+import { userInfoInterface } from '../interfaces/loginInterfaces/userInfo.interface';
+import { userFormInterface } from '../interfaces/loginInterfaces/userFormRegister.interface';
+import { responseLoginInterface } from '../interfaces/loginInterfaces/responseLogin.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -34,9 +36,9 @@ export class AuthService {
       this.checkStatus.next(false);
     }
   };
-  loginUser = (user: userLogin, remember: boolean) => {
+  loginUser = (user: userLoginInterface, remember: boolean) => {
     return this.http.post(`${this.host}/login/`, user).subscribe(
-      (infoLogin: any) => {
+      (infoLogin: responseLoginInterface) => {
         if (infoLogin) {
           if (remember) {
             localStorage.setItem(
@@ -45,15 +47,7 @@ export class AuthService {
             );
           }
           localStorage.removeItem('error');
-          localStorage.setItem(
-            'token',
-            this.utf8_to_b64(infoLogin.accessToken)
-          );
-
-          localStorage.setItem(
-            'info',
-            this.utf8_to_b64(JSON.stringify(infoLogin.user))
-          );
+          this.setLocalStorageInfoLogin(infoLogin);
           this.errorStatus.next(false);
           this.checkLogin();
         }
@@ -68,6 +62,30 @@ export class AuthService {
     );
   };
 
+  registerUser = (user: userFormInterface): Promise<responseLoginInterface> => {
+    return this.http
+      .post(`${this.host}/users/register`, user)
+      .pipe(
+        map((responseApiLogin: responseLoginInterface) => {
+          this.setLocalStorageInfoLogin(responseApiLogin);
+          return responseApiLogin;
+        })
+      )
+      .toPromise();
+  };
+
+  setLocalStorageInfoLogin = (responseApiLogin: responseLoginInterface) => {
+    localStorage.setItem(
+      'token',
+      this.utf8_to_b64(responseApiLogin.accessToken)
+    );
+
+    localStorage.setItem(
+      'info',
+      this.utf8_to_b64(JSON.stringify(responseApiLogin.user))
+    );
+  };
+
   eliminarTokensYsession = () => {
     localStorage.clear();
     this.checkLogin();
@@ -76,13 +94,13 @@ export class AuthService {
     return localStorage.getItem('error');
   }
 
-  getRemember = (): userLogin => {
+  getRemember = (): userLoginInterface => {
     return localStorage.getItem('remember')
       ? JSON.parse(this.b64_to_utf8(localStorage.getItem('remember')))
       : null;
   };
 
-  getUser = (): userInfo => {
+  getUser = (): userInfoInterface => {
     return localStorage.getItem('info')
       ? JSON.parse(this.b64_to_utf8(localStorage.getItem('info')))
       : null;

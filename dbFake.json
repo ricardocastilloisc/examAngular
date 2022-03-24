@@ -6,6 +6,21 @@
       "name": "root",
       "lastname": "root",
       "id": 1
+    },
+    {
+      "email": "root2@root.com",
+      "password": "$2a$10$NjMNOcnthTMRn3MSAV6K6.s4/Ys05NcCzE9rBqsm87Bf43HDfUWv2",
+      "name": "root",
+      "last-name": "root",
+      "id": 2
+    },
+    {
+      "email": "ricaror@hotmail.com",
+      "password": "$2a$10$/AYE.JTjp3eD75ZyGqRijOe8OU58VeNVhuI3IIp495ItQebRLnJ9i",
+      "name": "Ricardo",
+      "lastname": "Castillo",
+      "passwordConfirm": "12345",
+      "id": 3
     }
   ]
 }

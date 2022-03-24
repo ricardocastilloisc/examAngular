@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -7,9 +9,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+
   registerForm: FormGroup;
 
-  constructor() {}
+  constructor(private authService: AuthService, private route: Router) {}
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -20,4 +23,14 @@ export class RegisterComponent implements OnInit {
       passwordConfirm: new FormControl(null, [Validators.required]),
     });
   }
+
+  onRegister = () => {
+    if (!this.registerForm.invalid) {
+      this.authService.registerUser(this.registerForm.value).then(() => {
+        this.route.navigate(['/home']);
+      });
+    } else {
+      return;
+    }
+  };
 }

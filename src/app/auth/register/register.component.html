@@ -2,7 +2,12 @@
   <mat-card-title></mat-card-title>
   <mat-card-title style="margin-top: 35px">Registro</mat-card-title>
 </mat-card-header>
-<form [formGroup]="registerForm" class="example-form" style="margin-top: 30px">
+<form
+  [formGroup]="registerForm"
+  class="example-form"
+  (ngSubmit)="onRegister()"
+  style="margin-top: 30px"
+>
   <div class="container">
     <mat-card-content>
       <mat-form-field class="example-full-width">
@@ -20,7 +25,7 @@
         </mat-hint>
       </mat-form-field>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Apellido*" formControlName="lastname" />
+        <input matInput placeholder="Apellido" formControlName="lastname" />
         <mat-hint
           *ngIf="
             registerForm.controls['lastname'].touched &&
@@ -74,26 +79,55 @@
           matInput
           type="password"
           placeholder="Confirmar Contraseña"
-          formControlName="password"
+          formControlName="passwordConfirm"
         />
         <mat-hint
           *ngIf="
-            registerForm.controls['password'].touched &&
-            registerForm.controls['password'].errors
+            registerForm.controls['passwordConfirm'].touched &&
+            registerForm.controls['passwordConfirm'].errors
           "
           style="color: red"
         >
-          <div *ngIf="registerForm.controls['password'].errors.required">
+          <div *ngIf="registerForm.controls['passwordConfirm'].errors.required">
             La confirmación del password es requerido
+          </div>
+        </mat-hint>
+        <mat-hint
+          *ngIf="
+            registerForm.controls['password'].touched &&
+            registerForm.controls['passwordConfirm'].touched &&
+            !(
+              registerForm.get('password').value ==
+              registerForm.get('passwordConfirm').value
+            )
+          "
+          style="color: red"
+        >
+          <div>
+            La confirmación de contraseña y la contraseña no es la misma.
           </div>
         </mat-hint>
       </mat-form-field>
     </mat-card-content>
     <button
       mat-stroked-button
-      [style]="!registerForm.valid ? 'background-color: #cccccc' : ''"
+      [style]="
+        !registerForm.valid ||
+        !(
+          registerForm.get('password').value ==
+          registerForm.get('passwordConfirm').value
+        )
+          ? 'background-color: #cccccc'
+          : ''
+      "
       class="btn-block"
-      [disabled]="!registerForm.valid"
+      [disabled]="
+        !registerForm.valid ||
+        !(
+          registerForm.get('password').value ==
+          registerForm.get('passwordConfirm').value
+        )
+      "
       type="submit"
     >
       Registrar
