@@ -1,11 +1,11 @@
 # Pasos para poder ejecutar el proyecto
 
 
-ir a raiz y ejecutar
+ejecutar
 
 ***npm i***
 
-Para cargar los mock solo hay que ejecutar en raiz
+Para cargar los mock solo hay que ejecutar 
 
 ***npm run mock***
 
