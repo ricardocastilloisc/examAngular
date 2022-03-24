@@ -3,6 +3,7 @@ import {
   cargarPlatillos,
   cargarPlatillosError,
   cargarPlatillosSucces,
+  unSetCargarPlatillos,
 } from '../actions/platillos.actions';
 import { Meal } from 'src/app/interfaces/platillos/platilloRandom.interface';
 
@@ -34,6 +35,15 @@ const _platillosReducer = createReducer(
     loading: false,
     loaded: true,
     meals: [...meals],
+    error: null,
+  })),
+
+  on(unSetCargarPlatillos, (state) => ({
+    ...state,
+    text: null,
+    loading: false,
+    loaded: false,
+    meals: [],
     error: null,
   })),
 

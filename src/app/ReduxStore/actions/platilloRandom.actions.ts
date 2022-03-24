@@ -15,3 +15,8 @@ export const cargarPlatilloRandomError = createAction(
   '[Platillo Random] Cargar Platillo Random Error',
   props<{ payload: any }>()
 );
+
+
+export const unSetCargarPlatilloRandom = createAction(
+  '[Platillo Random] Cargar Platillo Random Unset'
+);

@@ -5,6 +5,7 @@ import {
   cargarPlatillosDetall,
   cargarPlatillosDetallError,
   cargarPlatillosDetallSucces,
+  unsetCargarPlatillosDetall,
 } from '../actions/platilloDetall.actions';
 
 export interface platillosDetallState {
@@ -28,6 +29,15 @@ const _platillosDetallReducer = createReducer(
     ...state,
     loading: true,
     id: id,
+  })),
+
+  on(unsetCargarPlatillosDetall, (state) => ({
+    ...state,
+    id: null,
+    loading: false,
+    loaded: false,
+    meals: [],
+    error: null,
   })),
 
   on(cargarPlatillosDetallSucces, (state, { meals }) => ({

@@ -1,9 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Meal } from 'src/app/interfaces/platillos/platilloRandom.interface';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/ReduxStore/app.reducers';
 import { Store } from '@ngrx/store';
-import { cargarPlatilloRandom } from 'src/app/ReduxStore/actions';
+import {
+  cargarPlatilloRandom,
+  unSetCargarPlatilloRandom,
+} from 'src/app/ReduxStore/actions';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -12,7 +15,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './dialog-platillo-random.component.html',
   styleUrls: ['./dialog-platillo-random.component.scss'],
 })
-export class DialogPlatilloRandomComponent implements OnInit {
+export class DialogPlatilloRandomComponent implements OnInit, OnDestroy {
   DataPlatilloRandom$: Observable<Meal[]>;
 
   constructor(
@@ -21,6 +24,9 @@ export class DialogPlatilloRandomComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogPlatilloRandomComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {}
+  ngOnDestroy(): void {
+    this.store.dispatch(unSetCargarPlatilloRandom());
+  }
 
   ngOnInit(): void {
     this.DataPlatilloRandom$ = this.store.select(

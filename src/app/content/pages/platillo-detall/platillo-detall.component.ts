@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Meal } from 'src/app/interfaces/platillos/platilloRandom.interface';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/ReduxStore/app.reducers';
 import { Store } from '@ngrx/store';
-import { cargarPlatillosDetall } from 'src/app/ReduxStore/actions/platilloDetall.actions';
+import { cargarPlatillosDetall, unsetCargarPlatillosDetall } from 'src/app/ReduxStore/actions/platilloDetall.actions';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -12,7 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './platillo-detall.component.html',
   styleUrls: ['./platillo-detall.component.scss'],
 })
-export class PlatilloDetallComponent implements OnInit {
+export class PlatilloDetallComponent implements OnInit, OnDestroy{
   DataPlatillo$: Observable<Meal[]>;
 
   constructor(
@@ -20,6 +20,9 @@ export class PlatilloDetallComponent implements OnInit {
     private store: Store<AppState>,
     private DS: DomSanitizer,
   ) {}
+  ngOnDestroy(): void {
+    this.store.dispatch(unsetCargarPlatillosDetall());
+  }
 
   ngOnInit(): void {
     const {

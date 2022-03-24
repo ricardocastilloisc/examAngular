@@ -16,3 +16,7 @@ export const cargarPlatillosDetallError = createAction(
   '[Platillo] Cargar Platillo Error',
   props<{ payload: any }>()
 );
+
+export const unsetCargarPlatillosDetall = createAction(
+  '[Platillo] Cargar Platillo Unset'
+);
