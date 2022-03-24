@@ -1,0 +1,102 @@
+<mat-card-header>
+  <mat-card-title></mat-card-title>
+  <mat-card-title style="margin-top: 35px">Registro</mat-card-title>
+</mat-card-header>
+<form [formGroup]="registerForm" class="example-form" style="margin-top: 30px">
+  <div class="container">
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Nombre" formControlName="name" />
+        <mat-hint
+          *ngIf="
+            registerForm.controls['name'].touched &&
+            registerForm.controls['name'].errors
+          "
+          style="color: red"
+        >
+          <div *ngIf="registerForm.controls['name'].errors.required">
+            El nombre es requerido
+          </div>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Apellido*" formControlName="lastname" />
+        <mat-hint
+          *ngIf="
+            registerForm.controls['lastname'].touched &&
+            registerForm.controls['lastname'].errors
+          "
+          style="color: red"
+        >
+          <div *ngIf="registerForm.controls['lastname'].errors.required">
+            El apellido es requerido
+          </div>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Email" formControlName="email" />
+        <mat-hint
+          *ngIf="
+            registerForm.controls['email'].touched &&
+            registerForm.controls['email'].errors
+          "
+          style="color: red"
+        >
+          <div *ngIf="registerForm.controls['email'].errors.required">
+            El usuario es requerido
+          </div>
+          <div *ngIf="registerForm.controls['email'].errors.email">
+            El usuario debe ser de tipo email
+          </div>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          type="password"
+          placeholder="Contraseña"
+          formControlName="password"
+        />
+        <mat-hint
+          *ngIf="
+            registerForm.controls['password'].touched &&
+            registerForm.controls['password'].errors
+          "
+          style="color: red"
+        >
+          <div *ngIf="registerForm.controls['password'].errors.required">
+            El password es requerido
+          </div>
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          type="password"
+          placeholder="Confirmar Contraseña"
+          formControlName="password"
+        />
+        <mat-hint
+          *ngIf="
+            registerForm.controls['password'].touched &&
+            registerForm.controls['password'].errors
+          "
+          style="color: red"
+        >
+          <div *ngIf="registerForm.controls['password'].errors.required">
+            La confirmación del password es requerido
+          </div>
+        </mat-hint>
+      </mat-form-field>
+    </mat-card-content>
+    <button
+      mat-stroked-button
+      [style]="!registerForm.valid ? 'background-color: #cccccc' : ''"
+      class="btn-block"
+      [disabled]="!registerForm.valid"
+      type="submit"
+    >
+      Registrar
+    </button>
+  </div>
+</form>
