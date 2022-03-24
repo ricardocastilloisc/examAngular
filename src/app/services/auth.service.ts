@@ -1,5 +1,5 @@
 import { environment } from '../../environments/environment';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
@@ -63,8 +63,14 @@ export class AuthService {
   };
 
   registerUser = (user: userFormInterface): Promise<responseLoginInterface> => {
+    const { email, name, lastname, password } = user;
     return this.http
-      .post(`${this.host}/users/register`, user)
+      .post(`${this.host}/users/register`, {
+        email,
+        name,
+        lastname,
+        password,
+      })
       .pipe(
         map((responseApiLogin: responseLoginInterface) => {
           this.setLocalStorageInfoLogin(responseApiLogin);
