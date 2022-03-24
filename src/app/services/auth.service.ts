@@ -88,10 +88,11 @@ export class AuthService {
 
   logoutUser() {
     localStorage.removeItem('token');
+    localStorage.removeItem('info');
     this.checkLogin();
     return;
   }
-  
+
   getMsjError() {
     return localStorage.getItem('error');
   }
