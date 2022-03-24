@@ -1,27 +1,23 @@
-# ExamAngular
+# Pasos para poder ejecutar el proyecto
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.6.
 
-## Development server
+ir a raiz y ejecutar
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+***npm i***
 
-## Code scaffolding
+Para cargar los mock solo hay que ejecutar en raiz
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+***npm run mock***
 
-## Build
+Para ejecutar el proyecto ejecutar:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+***ng s***
 
-## Running unit tests
+La base de datos o mocks de pruebas es **db,json** no es necesario editarlo ya que se carga un fakebackend que puedes registrar y ver los usuarios para  mayor información ver la documentación de la libreria **JSON SERVER **
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+https://www.npmjs.com/package/json-server-auth
 
-## Running end-to-end tests
+usurio default es (esto es indiferente porque puede crear un usuario)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+**usuario: root@root.com
+contraseña: root**
