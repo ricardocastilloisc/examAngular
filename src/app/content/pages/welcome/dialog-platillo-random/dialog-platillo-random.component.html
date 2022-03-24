@@ -1,0 +1,42 @@
+<div *ngIf="DataPlatilloRandom$ | async as DataPlatilloRandom">
+  <div *ngFor="let DataPlatillo of DataPlatilloRandom">
+    <h2 mat-dialog-title>{{ DataPlatillo.strMeal }}</h2>
+    <mat-dialog-content class="mat-typography">
+      <h3>Category:</h3>
+      <p>
+        {{ DataPlatillo.strCategory }}
+      </p>
+      <h3>Area:</h3>
+      <p>
+        {{ DataPlatillo.strArea }}
+      </p>
+      <h3>Instructions:</h3>
+      <p>
+        {{ DataPlatillo.strInstructions }}
+      </p>
+      <h3>Tags:</h3>
+      <p>
+        {{ DataPlatillo.strTags }}
+      </p>
+
+      <p>
+        <img
+          [src]="DataPlatillo.strMealThumb"
+          style="width: 100%; height: auto"
+        />
+      </p>
+
+      <div class="iframe-container">
+        <iframe allowfullscreen="" frameborder="0" [src]="getVideoIframe(DataPlatillo.strYoutube)" class="rounded"></iframe>
+      </div>
+
+
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+        Ver platillo
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

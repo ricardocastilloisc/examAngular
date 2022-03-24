@@ -15,9 +15,15 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { FormsModule } from '@angular/forms';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import {MatCardModule} from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogPlatilloRandomComponent } from './pages/welcome/dialog-platillo-random/dialog-platillo-random.component';
 
 @NgModule({
-  declarations: [ContentComponent, MenuComponent, WelcomeComponent],
+
+  entryComponents: [
+    DialogPlatilloRandomComponent,
+  ],
+  declarations: [ContentComponent, MenuComponent, WelcomeComponent, DialogPlatilloRandomComponent],
   imports: [
     CommonModule,
     ContentRoutingModule,
@@ -30,7 +36,8 @@ import {MatCardModule} from '@angular/material/card';
     MatIconModule,
     FormsModule,
     LayoutModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
   ],
 })
 export class ContentModule {}
