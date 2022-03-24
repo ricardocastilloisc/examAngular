@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         this.loggedIn = val;
 
         setTimeout(() => {
-          this.route.navigate(['/home']);
+          this.route.navigate(['/dashboard']);
         }, 100);
       }
     });

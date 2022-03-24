@@ -1,0 +1,26 @@
+#content {
+  background: #fff;
+  /* Para Internet Explorer */
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgb(200, 200, 200);
+  font-size: 2rem;
+  /*margin-left: 37%;*/
+  padding: 20px 0;
+  text-align: center;
+  /*text-shadow: 2px 2px 4px rgb(255, 255, 255);*/
+  width: 280px;
+  position: absolute;
+  font-weight: bolder;
+  height: 117px;
+  top: 27%;
+}
+
+.padre {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+

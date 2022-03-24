@@ -11,11 +11,11 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
   {
-    path: 'home',
+    path: 'dashboard',
     loadChildren: () =>
       import('./content/content.module').then((m) => m.ContentModule),
     canActivate: [AuthGuard],

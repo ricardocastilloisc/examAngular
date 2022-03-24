@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
   onRegister = () => {
     if (!this.registerForm.invalid) {
       this.authService.registerUser(this.registerForm.value).then(() => {
-        this.route.navigate(['/home']);
+        this.route.navigate(['/dashboard']);
       });
     } else {
       return;
