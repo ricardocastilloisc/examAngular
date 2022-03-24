@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AppState } from 'src/app/ReduxStore/app.reducers';
 import { AuthService } from 'src/app/services/auth.service';
+import { Store } from '@ngrx/store';
+import { cargarPlatilloRandom } from 'src/app/ReduxStore/actions';
 
 @Component({
   selector: 'app-welcome',
@@ -10,9 +13,18 @@ export class WelcomeComponent implements OnInit {
   width;
   height;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.store.select('platilloRandom').subscribe(
+      result => {
+        console.log(result);
+      }
+    )
+
+    this.store.dispatch(cargarPlatilloRandom())
+  }
 
   getUserName = (): string => {
     const { lastname, name } = this.authService.getUser();
