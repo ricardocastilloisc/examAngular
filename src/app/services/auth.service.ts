@@ -2,6 +2,10 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { userLogin } from '../interfaces/userLogin';
+import { userInfo } from '../interfaces/userInfo';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +19,13 @@ export class AuthService {
   errorStatus = new BehaviorSubject<boolean>(false);
   errorLoggedIn = this.errorStatus.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private jwtHelp: JwtHelperService) {
     localStorage.removeItem('error');
   }
-  checkLogin() {
+  checkLogin = () => {
     try {
       const token = this.b64_to_utf8(localStorage.getItem('token'));
-      if (token) {
+      if (token && !this.jwtHelp.isTokenExpired(token)) {
         this.checkStatus.next(true);
       } else {
         this.checkStatus.next(false);
@@ -29,57 +33,68 @@ export class AuthService {
     } catch (error) {
       this.checkStatus.next(false);
     }
-  }
-  loginUser(user: any) {
-    return this.http.post(`${this.host}/devengo_api/login/`, user).subscribe(
-      (checkUser: any) => {
-
-        console.log(checkUser)
-        if (checkUser.data.token) {
-          localStorage.setItem('username', checkUser.data.username);
+  };
+  loginUser = (user: userLogin, remember: boolean) => {
+    return this.http.post(`${this.host}/login/`, user).subscribe(
+      (infoLogin: any) => {
+        if (infoLogin) {
+          if (remember) {
+            localStorage.setItem(
+              'remember',
+              this.utf8_to_b64(JSON.stringify(user))
+            );
+          }
           localStorage.removeItem('error');
-          localStorage.setItem('token', this.utf8_to_b64(checkUser.data.token));
-          localStorage.setItem('INFO', checkUser.data.type_user.perfil);
-          localStorage.setItem('user', this.utf8_to_b64(checkUser.data.user));
+          localStorage.setItem(
+            'token',
+            this.utf8_to_b64(infoLogin.accessToken)
+          );
+
+          localStorage.setItem(
+            'info',
+            this.utf8_to_b64(JSON.stringify(infoLogin.user))
+          );
           this.errorStatus.next(false);
-          this.checkLogin();
-        } else {
-          localStorage.setItem('error', checkUser.message);
-          this.errorStatus.next(true);
           this.checkLogin();
         }
       },
       (error) => {
-        //console.log(error.error.meta.message);
         this.checkLogin();
-        let mensaje = error.error.meta.message
+        let mensaje = 'Usuario y contraseña incorrecto';
         localStorage.setItem('error', mensaje);
         this.errorStatus.next(true);
-        return error.error;
+        return mensaje;
       }
     );
-  }
+  };
 
   eliminarTokensYsession = () => {
     localStorage.clear();
     this.checkLogin();
-  }
+  };
   getMsjError() {
     return localStorage.getItem('error');
   }
 
-  getToken(): string {
-    return this.b64_to_utf8(localStorage.getItem('token'));
-  }
-  getUser(): string {
-    return this.b64_to_utf8(localStorage.getItem('user'));
-  }
+  getRemember = (): userLogin => {
+    return localStorage.getItem('remember')
+      ? JSON.parse(this.b64_to_utf8(localStorage.getItem('remember')))
+      : null;
+  };
 
-  utf8_to_b64(str: string): string {
+  getUser = (): userInfo => {
+    return localStorage.getItem('info')
+      ? JSON.parse(this.b64_to_utf8(localStorage.getItem('info')))
+      : null;
+  };
+
+  //encriptar valores
+  utf8_to_b64 = (str: string): string => {
     return window.btoa(unescape(encodeURIComponent(str)));
-  }
+  };
 
-  b64_to_utf8(str: string): string {
+  //des encriptar valores
+  b64_to_utf8 = (str: string): string => {
     return decodeURIComponent(escape(window.atob(str)));
-  }
+  };
 }

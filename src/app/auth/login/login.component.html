@@ -2,26 +2,26 @@
   <mat-card-title></mat-card-title>
   <mat-card-title style="margin-top: 35px">Login</mat-card-title>
 </mat-card-header>
-<form [formGroup]="loginForm" class="example-form" style="margin-top: 30px">
+<form [formGroup]="loginForm" class="example-form"  (ngSubmit)="onLogin()" style="margin-top: 30px">
   <div class="container">
     <mat-card-content>
       <mat-form-field class="example-full-width">
         <input
           matInput
           placeholder="Usuario (email)"
-          formControlName="username"
+          formControlName="email"
         />
         <mat-hint
           *ngIf="
-            loginForm.controls['username'].touched &&
-            loginForm.controls['username'].errors
+            loginForm.controls['email'].touched &&
+            loginForm.controls['email'].errors
           "
           style="color: red"
         >
-          <div *ngIf="loginForm.controls['username'].errors.required">
+          <div *ngIf="loginForm.controls['email'].errors.required">
             El usuario es requerido
           </div>
-          <div *ngIf="loginForm.controls['username'].errors.email">
+          <div *ngIf="loginForm.controls['email'].errors.email">
             El usuario debe ser de tipo email
           </div>
         </mat-hint>
@@ -54,6 +54,9 @@
         >Recordar sesión</mat-checkbox
       >
     </section>
+
+
+    <mat-hint style="text-align: center; color: red; ">{{errmsg}}</mat-hint>
 
     <button
       style="margin-top: 10px"

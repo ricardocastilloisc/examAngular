@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -13,28 +14,54 @@ export class LoginComponent implements OnInit {
   errorLogin = false;
   loadin = false;
   remember: boolean = false;
-
   loginForm: FormGroup;
-
   errmsg: string;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private route: Router) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required]),
+    });
+
+    //verificar si existe recordatorio de la session
+    if (this.authService.getRemember()) {
+      this.remember = true;
+      this.loginForm.patchValue(this.authService.getRemember());
+    }
+
+    this.authService.isUserLoggedIn.subscribe((val) => {
+      if (val && !this.loggedIn) {
+        this.loggedIn = val;
+
+        setTimeout(() => {
+          this.route.navigate(['/home']);
+        }, 100);
+      }
+    });
+
+    this.authService.errorLoggedIn.subscribe((val) => {
+      if (val && this.authService.getMsjError()) {
+        const newObject = Object.assign(
+          {},
+          { error: this.authService.getMsjError() }
+        );
+        const { error } = newObject;
+        this.errmsg = error;
+        localStorage.removeItem('error');
+        this.loadin = false;
+      }
     });
   }
 
-  onSubmit() {
+  onLogin = () => {
     if (!this.loginForm.invalid) {
       this.errmsg = null;
       this.loadin = true;
-      this.authService.loginUser(this.loginForm.value);
+      this.authService.loginUser(this.loginForm.value, this.remember);
     } else {
-      
       return;
     }
-  }
+  };
 }
