@@ -16,3 +16,4 @@ export const cargarPlatillosError = createAction(
   '[Platillos] Cargar Platillos Error',
   props<{ payload: any }>()
 );
+

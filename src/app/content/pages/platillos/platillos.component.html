@@ -30,12 +30,13 @@
         />
         <mat-card-content>
           <p>
-            {{  stringLimit(DataPlatillo.strInstructions)  }}
-
+            {{ stringLimit(DataPlatillo.strInstructions) }}
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>Ver Platillo</button>
+          <button mat-button (click)="verPlatillos(DataPlatillo.idMeal)">
+            Ver Platillo
+          </button>
         </mat-card-actions>
       </mat-card>
     </mat-grid-tile>

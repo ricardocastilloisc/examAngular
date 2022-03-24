@@ -24,6 +24,13 @@ const routes: Routes = [
             (m) => m.PlatillosModule
           ),
       },
+      {
+        path: 'platilloDetall',
+        loadChildren: () =>
+          import('./pages/platillo-detall/platillo-detall.module').then(
+            (m) => m.PlatilloDetallModule
+          ),
+      },
     ],
   },
 ];

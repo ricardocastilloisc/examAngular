@@ -28,4 +28,14 @@ export class PlatillosService {
       })
       .pipe(map(({ meals }: any) => meals));
   };
+  getMealId = (id): Observable<Meal[]> => {
+    let QueryParams = new HttpParams();
+    QueryParams = QueryParams.append('i', id);
+
+    return this.http
+      .get(`${this.host}/lookup.php`, {
+        params: QueryParams,
+      })
+      .pipe(map(({ meals }: any) => meals));
+  };
 }

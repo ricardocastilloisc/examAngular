@@ -1,0 +1,35 @@
+<div *ngIf="DataPlatillo$ | async as DataPlatillo" style="padding: 15px">
+  <div *ngFor="let DataPlatill of DataPlatillo">
+    <h2 mat-dialog-title>{{ DataPlatill.strMeal }}</h2>
+
+    <h3>Category:</h3>
+    <p>
+      {{ DataPlatill.strCategory }}
+    </p>
+    <h3>Area:</h3>
+    <p>
+      {{ DataPlatill.strArea }}
+    </p>
+    <h3>Instructions:</h3>
+    <p>
+      {{ DataPlatill.strInstructions }}
+    </p>
+    <h3>Tags:</h3>
+    <p>
+      {{ DataPlatill.strTags }}
+    </p>
+
+    <p>
+      <img [src]="DataPlatill.strMealThumb" style="width: 100%; height: auto" />
+    </p>
+
+    <div class="iframe-container">
+      <iframe
+        allowfullscreen=""
+        frameborder="0"
+        [src]="getVideoIframe(DataPlatill.strYoutube)"
+        class="rounded"
+      ></iframe>
+    </div>
+  </div>
+</div>

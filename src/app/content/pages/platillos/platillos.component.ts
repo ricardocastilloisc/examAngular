@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { AppState } from 'src/app/ReduxStore/app.reducers';
 import { Store } from '@ngrx/store';
 import { cargarPlatillos } from 'src/app/ReduxStore/actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-platillos',
@@ -17,7 +18,7 @@ export class PlatillosComponent implements OnInit {
   limitItems = 6;
   page = 1;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private route: Router) {}
 
   ngOnInit(): void {
     this.DataPlatillos$ = this.store.select(({ platillos }) => platillos.meals);
@@ -32,6 +33,13 @@ export class PlatillosComponent implements OnInit {
   pageChange(event: number) {
     this.page = event;
   }
+
+  verPlatillos(id) {
+    this.route.navigateByUrl(
+      'dashboard/platilloDetall/' + id
+    );
+  }
+
 
   stringLimit = (label: string) => {
     if (label.length > 100) {

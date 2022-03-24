@@ -1,35 +1,39 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Meal } from 'src/app/interfaces/platillos/platilloRandom.interface';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/ReduxStore/app.reducers';
 import { Store } from '@ngrx/store';
-import { cargarPlatilloRandom } from 'src/app/ReduxStore/actions';
+import { cargarPlatillosDetall } from 'src/app/ReduxStore/actions/platilloDetall.actions';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-platillo-random',
-  templateUrl: './dialog-platillo-random.component.html',
-  styleUrls: ['./dialog-platillo-random.component.scss'],
+  selector: 'app-platillo-detall',
+  templateUrl: './platillo-detall.component.html',
+  styleUrls: ['./platillo-detall.component.scss'],
 })
-export class DialogPlatilloRandomComponent implements OnInit {
-  DataPlatilloRandom$: Observable<Meal[]>;
+export class PlatilloDetallComponent implements OnInit {
+  DataPlatillo$: Observable<Meal[]>;
 
   constructor(
+    private parametrosDeRuta: ActivatedRoute,
     private store: Store<AppState>,
     private DS: DomSanitizer,
-    public dialogRef: MatDialogRef<DialogPlatilloRandomComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any
   ) {}
 
   ngOnInit(): void {
-    this.DataPlatilloRandom$ = this.store.select(
-      ({ platilloRandom }) => platilloRandom.meals
+    const {
+      snapshot: {
+        params: { id },
+      },
+    } = this.parametrosDeRuta;
+
+    this.DataPlatillo$ = this.store.select(
+      ({ platilloDetall }) => platilloDetall.meals
     );
 
-    this.store.dispatch(cargarPlatilloRandom());
+    this.store.dispatch(cargarPlatillosDetall({ id: id }));
   }
-
   getVideoIframe(url: string) {
     var video: string, results;
 
@@ -48,12 +52,5 @@ export class DialogPlatilloRandomComponent implements OnInit {
     return this.DS.bypassSecurityTrustResourceUrl(
       'https://www.youtube.com/embed/' + video
     );
-  }
-
-  verPlatillo(id) {
-    const datos = {
-      id: id,
-    };
-    this.dialogRef.close(datos);
   }
 }

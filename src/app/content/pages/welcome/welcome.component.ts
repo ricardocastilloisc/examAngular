@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPlatilloRandomComponent } from './dialog-platillo-random/dialog-platillo-random.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,13 +14,19 @@ export class WelcomeComponent implements OnInit {
   width;
   height;
 
-  constructor(private authService: AuthService, public dialog: MatDialog) {}
+  constructor(private authService: AuthService, public dialog: MatDialog, private route: Router,) {}
 
   ngOnInit(): void {
 
 
     const dialogRef = this.dialog.open(DialogPlatilloRandomComponent);
-
+    dialogRef.afterClosed().subscribe((res: any) => {
+      if (res) {
+        this.route.navigateByUrl(
+          'dashboard/platilloDetall/' + res.id
+        );
+      }
+    });
 
   }
 
