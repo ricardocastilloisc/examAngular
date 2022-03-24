@@ -86,10 +86,12 @@ export class AuthService {
     );
   };
 
-  eliminarTokensYsession = () => {
-    localStorage.clear();
+  logoutUser() {
+    localStorage.removeItem('token');
     this.checkLogin();
-  };
+    return;
+  }
+  
   getMsjError() {
     return localStorage.getItem('error');
   }
