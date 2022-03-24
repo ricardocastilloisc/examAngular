@@ -1,0 +1,55 @@
+<div class="large-box">
+  <mat-grid-list
+    [cols]="colSize"
+    rowHeight="400px"
+    gutterSize="1vh"
+    *ngIf="DataPlatillos$ | async as DataPlatillos"
+  >
+    <mat-grid-tile
+      [colspan]="1"
+      [rowspan]="1"
+      *ngFor="
+        let DataPlatillo of DataPlatillos
+          | paginate
+            : {
+                itemsPerPage: limitItems,
+                currentPage: page,
+                totalItems: DataPlatillos.length
+              }
+      "
+    >
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{ DataPlatillo.strMeal }}</mat-card-title>
+          <mat-card-subtitle> {{ DataPlatillo.strTags }}</mat-card-subtitle>
+        </mat-card-header>
+        <img
+          mat-card-image
+          [src]="DataPlatillo.strMealThumb"
+          style="width: 256px; height: 171px"
+        />
+        <mat-card-content>
+          <p>
+            {{  stringLimit(DataPlatillo.strInstructions)  }}
+
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Ver Platillo</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <footer style="display: flex; justify-content: center">
+    <pagination-controls
+      (pageChange)="pageChange($event)"
+      maxSize="9"
+      directionLinks="true"
+      previousLabel="Previous"
+      nextLabel="Next"
+      screenReaderPaginationLabel="Pagination"
+    >
+    </pagination-controls>
+  </footer>
+</div>

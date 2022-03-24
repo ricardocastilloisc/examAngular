@@ -1,3 +1,4 @@
-import { platilloRandomEfffects } from './platilloRandom.effets';
+import { platilloRandomEfffects } from './platilloRandom.effects';
+import { PlatillosEfffects } from './platillos.effects';
 
-export const EffectsArrays: any[] = [platilloRandomEfffects];
+export const EffectsArrays: any[] = [platilloRandomEfffects, PlatillosEfffects];

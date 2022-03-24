@@ -17,6 +17,13 @@ const routes: Routes = [
         path: 'welcome',
         component: WelcomeComponent,
       },
+      {
+        path: 'platillos',
+        loadChildren: () =>
+          import('./pages/platillos/platillos.module').then(
+            (m) => m.PlatillosModule
+          ),
+      },
     ],
   },
 ];
